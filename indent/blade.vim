@@ -21,7 +21,7 @@ let b:did_indent = 1
 
 setlocal indentexpr=GetBladeIndent()
 "setlocal indentkeys+=0=,0),=EO
-setlocal indentkeys+=0=,0),=EO,=@end,=@else,o,O,*<Return>,<>>,<bs>,{,}
+setlocal indentkeys+=0=,0),=EO,=@end,=@else,=@stop,=@show,=@overwrite,o,O,*<Return>,<>>,<bs>,{,}
 
 " Only define the function once.
 if exists("*GetBladeIndent")
@@ -62,10 +62,10 @@ function GetBladeIndent()
 	let ind = indent(lnum) + (&sw * ind)
 
 	" Indent @ blocks
-	if line =~ '@if' || line =~ '@else' || line =~ '@foreach' && line !~ '@end'
+	if line =~ '@if' || line =~ '@else' || line =~ '@for' || line =~ '@while' || line =~ '@section' && line !~ '@end'
 		let ind = ind + &sw
 	endif
-	if cline =~ '@else' || cline =~ '@end'
+	if cline =~ '@else' || cline =~ '@end' || cline =~ '@show' || cline =~ '@stop' || cline =~ '@overwrite'
 		let ind = ind - &sw
 	endif
 	
